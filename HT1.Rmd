@@ -320,7 +320,10 @@ ganancias (revenue) y popularidad. Mientras que, no hay una correlación evident
 demás variables.
 
 
+
 ## 4.10) ¿Quiénes son los directores que hicieron las 20 películas mejor calificadas?
+
+
 
 ```{r}
 library(tidyr)
@@ -328,10 +331,14 @@ df10 <- datos[order(datos$voteAvg, decreasing = TRUE),]
 df <- data.frame(director=df10$director[1:20],
                  calificacion=df10$voteAvg[1:20],
                  titulo=df10$title)
-head(df,20)
+df2<-df[df$director!="",]
+head(df2,20)
 ```
 
 ## 4.11) ¿Cómo se correlacionan los presupuestos con los ingresos? ¿Los altos presupuestos significan altos ingresos? Haga los gráficos que necesite, histograma, diagrama de dispersión
+
+Se utilizó un histograma como ayuda para calculcar la correlacion entre el presupuesto y los ingresos, como se puede observar abajo, no existe una tendencia definida que indique buena correlacion entre estas variables. Sumando a la grafica, el coeficiente de correlacion R resultó de 0.76, lo cual nos dice que puede haber ligera correlacion pero no es un dato contundente que asegure relación.
+
 ```{r}
 plot(datos$budget, datos$revenue, main = "Presupuesto vs Ingresos",
      xlab = "Prespuesto", ylab = "Ingresos",
@@ -343,17 +350,23 @@ summary(correlation)
 ```
 
 ## 4.12) ¿Se asocian ciertos meses de lanzamiento con mejores ingresos?
+
+A partir del gráfico de barras presentado podemos obesrvar que los meses con mejores ingresos son junio, diciembre y julio como tercer lugar. 
+
 ```{r}
 library(ggplot2)
 meses <- setNames(aggregate(datos$revenue, by=list(datos$releaseDate), FUN=sum),c("Fecha","Cantidad"))
 meses$mes<-months(as.Date(meses$Fecha,format="%m/%d/%y"))
 meses <- setNames(aggregate(meses$Cantidad, by=list(meses$mes), FUN=sum),c("mes","Cantidad"))
+
 meses
 ggplot(meses, aes(x = mes, y = Cantidad)) + 
   geom_bar(stat = "identity")
 ```
 
 ## 4.13) ¿En qué meses se han visto los lanzamientos con mejores ingresos?¿cuantas películas, en promedio, se han lanzado por mes?
+
+A partir del siguiente analisis podemos observar qe la pelicula con mas ingresos(Avatar) fue lanzada en el mes de diciembre, la segunda con mejores ganancias(Avengers: Endgame) fue lanzada en abril y la tercera con mas ingresos(Titanic) fue lanzada en noviembre. Si se desea conocer los meses de las siguientes con mas ganancias se puede consultar la siguiente tabla.
 ```{r}
 df13 <- datos[order(datos$revenue, decreasing = TRUE),]
 df <- data.frame(title=df13$title[1:5],
@@ -370,7 +383,14 @@ z<-nrow(datos)/12
 print(paste("promedio de peliculas producidas por mes: ",round(z,2)))
 ```
 
+#### ¿cuantas películas, en promedio, se han lanzado por mes?
+
+En total fueron lanzadas 10,000 peliculas, por lo que las cantidad de peliculas lanzadas por mes es de alrededor de 833.
+
 ## 4.14) ¿Cómo se correlacionan las calificaciones con el éxito comercial?
+
+Se puede observar en el diagrama de dispesion siguiente que no existe ninguna correlacion entre la popularidad de las peliculas con su exito comercial(ingresos). Una correlacion de 0.16 de estos datos nos afirman lo establecido anteriormente.
+
 ```{r}
 plot(datos$popularity, datos$revenue, main = "popularidad vs Ingresos",
      xlab = "Popularidad", ylab = "Exito monetario",
@@ -390,6 +410,9 @@ correlation <- lm(datos$revenue~datos$popularity)
 ```
 
 ## 4.15) ¿A qué género principal pertenecen las películas más largas?
+
+De las 5 peliculas mas largas, 3 de estas tienen como genero principal el *Drama*, y las otras dos tienen como genero *Documental*. Es importante recalcar que a pesar de que son mas de drama, las primeras dos mas largas son de documental, y las posiciones 3-5 son de drama.
+
 ```{r}
 df15 <- datos[order(datos$runtime, decreasing = TRUE),]
 df <- data.frame(title=df15$title[1:5],
@@ -398,4 +421,3 @@ df <- data.frame(title=df15$title[1:5],
 df
 
 ```
-
