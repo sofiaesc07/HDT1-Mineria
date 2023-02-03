@@ -29,30 +29,55 @@ str(datos)
 
 
 budget -> cuantitativa discreta
+
 genres -> cualitativa nominal
+
 homePage -> cualitativa nominal
+
 productionCompany -> cualitativa nominal
+
 productionCompanyCountry -> cualitativa nominal
+
 productionCountry -> cualitativa nominal
+
 revenue -> cuantitativa discreta
+
 runtime -> cuantitativa discreta
+
 video -> cualitativa nominal
+
 director -> cualitativa nominal
+
 actors -> cualitativa nominal
+
 actorsPopularity -> cuantitativa discreta
+
 actorsCharacter -> cualitativa nominal
+
 originalTitle -> cualitativa nominal
+
 title -> cualitativa nominal
+
 originalLanguage -> cualitativa nominal
+
 popularity -> cuantitativa discreta 
+
 releaseDate -> cuantitativa discreta
+
 voteAvg -> cuantitativa discreta 
+
 voteCount -> cuantitativa discreta
+
 genresAmount -> cuantitativa discreta
+
 productionCoAomunt -> cuantitativa discreta
+
 productionCountriesAmount -> cuantitativa discreta
+
 actorsAmount -> cuantitativa discreta
+
 castWomenAmount -> cuantitativa discreta
+
 castMenAmount -> cuantitativa discreta
 
 ## 3) Revisión de normalidad en variables
