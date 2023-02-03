@@ -234,13 +234,13 @@ df4$title[1:10]
 ## 4.5) ¿Cuántas películas se hicieron en cada año? ¿En qué año se hicieron más películas? Haga un gráfico de barras
 
 ```{r}
-#se separararon las fechas por medio del formar, año, mes y dia, y se utilizao solo el año
+#se separararon las fechas por medio del formar, año, mes y dia, y se utilizao solo el
 datos$releaseYear <- as.POSIXct(datos$releaseDate, format ="%Y-%m-%d")
 datos$releaseYear <-format(datos$releaseYear, format = "%Y")
 datos$releaseYear <-as.integer(datos$releaseYear, format ="%Y")
 #se agruparon los datos dependiendo del año en el que se estaba trabajando
 df5 <- datos %>% group_by(datos$releaseYear) %>% summarise(freq=n()) %>% ungroup()
-print(as_tibble(años), n = 120)
+print(as_tibble(df5), n = 120)
 
 # Creamos un grafico de frecuencias en donde se dividia la cantidad de peliculas por año
 df5 %>% slice_max(freq)
@@ -251,7 +251,6 @@ El año con más peliculas fue el 2021 con 816 peliculas.
 
 
 ## 4.6) ¿Cuál es el género principal de las 20 películas más recientes? ¿Cuál es el género principal que predomina en el conjunto de datos? Represéntelo usando un gráfico
-
 ```{r}
 #20 MAS RECIENTE
 #GENERAL
@@ -333,7 +332,6 @@ head(df,20)
 ```
 
 ## 4.11) ¿Cómo se correlacionan los presupuestos con los ingresos? ¿Los altos presupuestos significan altos ingresos? Haga los gráficos que necesite, histograma, diagrama de dispersión
-
 ```{r}
 plot(datos$budget, datos$revenue, main = "Presupuesto vs Ingresos",
      xlab = "Prespuesto", ylab = "Ingresos",
@@ -345,7 +343,6 @@ summary(correlation)
 ```
 
 ## 4.12) ¿Se asocian ciertos meses de lanzamiento con mejores ingresos?
-
 ```{r}
 library(ggplot2)
 meses <- setNames(aggregate(datos$revenue, by=list(datos$releaseDate), FUN=sum),c("Fecha","Cantidad"))
@@ -357,7 +354,6 @@ ggplot(meses, aes(x = mes, y = Cantidad)) +
 ```
 
 ## 4.13) ¿En qué meses se han visto los lanzamientos con mejores ingresos?¿cuantas películas, en promedio, se han lanzado por mes?
-
 ```{r}
 df13 <- datos[order(datos$revenue, decreasing = TRUE),]
 df <- data.frame(title=df13$title[1:5],
@@ -375,7 +371,6 @@ print(paste("promedio de peliculas producidas por mes: ",round(z,2)))
 ```
 
 ## 4.14) ¿Cómo se correlacionan las calificaciones con el éxito comercial?
-
 ```{r}
 plot(datos$popularity, datos$revenue, main = "popularidad vs Ingresos",
      xlab = "Popularidad", ylab = "Exito monetario",
@@ -395,7 +390,6 @@ correlation <- lm(datos$revenue~datos$popularity)
 ```
 
 ## 4.15) ¿A qué género principal pertenecen las películas más largas?
-
 ```{r}
 df15 <- datos[order(datos$runtime, decreasing = TRUE),]
 df <- data.frame(title=df15$title[1:5],
