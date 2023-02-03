@@ -210,6 +210,102 @@ df3$title[1:10]
 9) Fight Club
 10) Pulp Fiction
 
+## 4.4) ¿Cuál es la peor película de acuerdo a los votos de todos los usuarios?
+
+```{r}
+df4 <- datos[order(datos$voteCount, decreasing = FALSE),]
+df4$title[1:10]
+```
+1) "La Mera Reyna del Sur"                                                                 
+2) "Star Driver the Movie" 
+3) "The Next Mega Tsunami"                                                                  
+4) "Three Preludes for Solo Piano By Adam Sherkin"                                          
+5) "Mom's Friend 2"                                                                         
+6) "El silencio"                                                                            
+7) "<U+ADF9><U+C7A5><U+D310> <U+B808><U+C774><U+B514><U+BC84><U+ADF8>: <U+BBF8><U+B77C><U+D074> <U+C2A4><U+D1A4><U+C758> <U+BE44><U+BC00>"
+8) "Thor: Hammer Time"                                                                      
+9) "Sing Along"                                                                             
+10) "Tar Pits Film"
+## 4.5) ¿Cuántas películas se hicieron en cada año? ¿En qué año se hicieron más películas? Haga un gráfico de barras
+
+```{r}
+#se separararon las fechas por medio del formar, año, mes y dia, y se utilizao solo el año
+datos$releaseYear <- as.POSIXct(datos$releaseDate, format ="%Y-%m-%d")
+datos$releaseYear <-format(datos$releaseYear, format = "%Y")
+datos$releaseYear <-as.integer(datos$releaseYear, format ="%Y")
+#se agruparon los datos dependiendo del año en el que se estaba trabajando
+df5 <- datos %>% group_by(datos$releaseYear) %>% summarise(freq=n()) %>% ungroup()
+print(as_tibble(años), n = 120)
+
+# Creamos un grafico de frecuencias en donde se dividia la cantidad de peliculas por año
+df5 %>% slice_max(freq)
+ggplot(df5, aes(x=`datos$releaseYear`, y= freq, fill= freq)) + geom_bar(stat = "identity")
+```
+
+El año con más peliculas fue el 2021 con 816 peliculas.
+
+
+## 4.6) ¿Cuál es el género principal de las 20 películas más recientes? ¿Cuál es el género principal que predomina en el conjunto de datos? Represéntelo usando un gráfico
+
+```{r}
+#20 MAS RECIENTE
+#GENERAL
+#primero se seleccionan las variables de las que van a depender nuestros datos
+dfre <- separate_rows(datos,popularity, title, releaseYear,genres,sep="\\|") %>%
+  group_by(title, genres, releaseYear) %>% summarize( popularidad = sum(popularity))
+#ordenamos los datos de mayor a menor
+dfre1 <- dfre[order(dfre$popularidad, dfre$releaseYear, decreasing = TRUE),]
+head(dfre1, 20)
+
+#GENERAL
+#primero se seleccionan las variables de las que van a depender nuestros datos
+df6 <- separate_rows(datos,popularity, title, releaseYear,genres,sep="\\|") %>%
+  group_by(genres) %>% summarize( popularidad = sum(popularity))
+#ordenamos los datos de mayor a menor
+df66 <- df6[order(df6$popularidad, decreasing = TRUE),]
+df66
+
+#tabla para poder hacer grafico
+generos <- head(table(datos$genres))
+lbls <- paste(names(generos), generos)
+pie(generos, labels = lbls,
+   main="Generos principales")
+
+```
+El genero que predomina en el conjunto de datos es el de acción, mientras que el que predomina en las 20 es de igual manera es Accion.
+
+## 4.7)  ¿Las películas de qué genero principal obtuvieron mayores ganancias?
+
+```{r}
+#primero se seleccionan las variables de las que van a depender nuestros datos
+df7 <- separate_rows(datos,genres,sep="\\|") %>%
+  group_by(genres) %>% summarize( ganancias = sum(revenue) - sum(budget),)#planteamos una funcion que nos de las ganancias
+#ordenamos los datos de mayor a menor
+df77 <- df7[order(df7$ganancias, decreasing = TRUE),]
+head(df77, 20)
+
+```
+Las peliculas del genero de Aventura son las que más gancias tienen, incluso si en el inciso pasado vimos que el genero que predominaba era el de Accion. 
+
+
+
+
+
+## 4.8) ¿La cantidad de actores influye en los ingresos de las películas?¿se han hecho películas con más actores en los últimos años?
+```{r}
+#obtenemos la correlacion de spearman para saber si la cantidad de autores influye en el ingreso 
+cor(x = datos$actorsAmount, y = datos$revenue, method = "spearman")
+#hacemos una tabla para ver si hay mas 
+df8 <- separate_rows(datos,releaseYear,actorsAmount) %>%
+  group_by(releaseYear) %>% summarize( Actores = sum(actorsAmount))
+df8 <- df8[order(df8$releaseYear, decreasing = TRUE),]
+df8
+```
+Observamos que la correlación de spearman de los datos no se acerca a 1 lo que nos indica que la cantiadd de actores no influye de manera directa en los ingresos de las pelicula. De igual forma observamos que los años no tienen que ver con la cantidad de actores debido a que se observan variaciones en donde en años menores hay mayor cantidad de actores en el los años mas actuales. 
+
+
+
+
 ## 4.10) ¿Quiénes son los directores que hicieron las 20 películas mejor calificadas?
 
 ```{r}
