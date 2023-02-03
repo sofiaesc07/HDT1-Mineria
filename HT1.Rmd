@@ -239,7 +239,19 @@ ggplot(meses, aes(x = mes, y = Cantidad)) +
 ## 4.13) ¿En qué meses se han visto los lanzamientos con mejores ingresos?¿cuantas películas, en promedio, se han lanzado por mes?
 
 ```{r}
-
+df13 <- datos[order(datos$revenue, decreasing = TRUE),]
+df <- data.frame(title=df13$title[1:5],
+                 revenue=df13$revenue[1:5],
+                 releaseDate=df13$releaseDate[1:5])
+df
+meses13 <- setNames(aggregate(df$revenue, by=list(df$releaseDate), FUN=sum),c("Fecha","Cantidad"))
+meses13$mes<-months(as.Date(meses13$Fecha,format="%m/%d/%y"))
+meses13 <- setNames(aggregate(meses13$Cantidad, by=list(meses13$mes), FUN=sum),c("mes","Cantidad"))
+meses13
+lanzamientos <- months(as.POSIXlt(datos$releaseDate, format="%m/%d/%Y"))
+table(lanzamientos)
+z<-nrow(datos)/12
+print(paste("promedio de peliculas producidas por mes: ",round(z,2)))
 ```
 
 ## 4.14) ¿Cómo se correlacionan las calificaciones con el éxito comercial?
