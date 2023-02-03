@@ -808,9 +808,12 @@ df4$title[1:10]</code></pre>
 </li>
 <li>“Sing Along”<br />
 </li>
-<li>“Tar Pits Film” ## 4.5) ¿Cuántas películas se hicieron en cada año?
-¿En qué año se hicieron más películas? Haga un gráfico de barras</li>
+<li>“Tar Pits Film”</li>
 </ol>
+</div>
+<div id="cuántas-películas-se-hicieron-en-cada-año-en-qué-año-se-hicieron-más-películas-haga-un-gráfico-de-barras" class="section level2">
+<h2>4.5) ¿Cuántas películas se hicieron en cada año? ¿En qué año se
+hicieron más películas? Haga un gráfico de barras</h2>
 <pre class="r"><code>#se separararon las fechas por medio del formar, año, mes y dia, y se utilizao solo el
 datos$releaseYear &lt;- as.POSIXct(datos$releaseDate, format =&quot;%Y-%m-%d&quot;)
 datos$releaseYear &lt;-format(datos$releaseYear, format = &quot;%Y&quot;)
@@ -1095,7 +1098,8 @@ df10 &lt;- datos[order(datos$voteAvg, decreasing = TRUE),]
 df &lt;- data.frame(director=df10$director[1:20],
                  calificacion=df10$voteAvg[1:20],
                  titulo=df10$title)
-head(df,20)</code></pre>
+df2&lt;-df[df$director!=&quot;&quot;,]
+head(df2,20)</code></pre>
 <pre><code>##                                                                                       director
 ## 1                                                                                 Thomas Coven
 ## 2                                                                V\xedctor Barba|Juan Olivares
@@ -1103,20 +1107,20 @@ head(df,20)</code></pre>
 ## 4                                                                            Laurent Bouzereau
 ## 5                                                                                 Kaku Arakawa
 ## 6                                                                               Christin Baker
-## 7                                                                                             
 ## 8                                                                          Miguel Angel Zavala
-## 9                                                                                             
 ## 10                                                      Dave Bullock|Troy Adomitis|Victor Cook
 ## 11                                                                                Samuel Leong
-## 12                                                                                            
-## 13                                                                                            
 ## 14                                                                              Won Myeong-jun
 ## 15                                                                          Selena Quintanilla
 ## 16                                                                              Haruo Sotozaki
 ## 17                                                                              Haruo Sotozaki
-## 18                                                                                            
 ## 19                                                                             Ulises Valencia
 ## 20 Kim Nam-joon|Jeon Jung-kook|Kim Tae-hyung|Park Ji-min|Jung Ho-seok|Kim Seok-jin|Min Yoon-gi
+## 21                                                                                Thomas Coven
+## 22                                                               V\xedctor Barba|Juan Olivares
+## 23                                                                               Rebecca Sugar
+## 24                                                                           Laurent Bouzereau
+## 25                                                                                Kaku Arakawa
 ##    calificacion                                                 titulo
 ## 1          10.0                               Hot Naked Sex &amp; the City
 ## 2          10.0                                               Holidays
@@ -1124,25 +1128,31 @@ head(df,20)</code></pre>
 ## 4          10.0       Spirit of Vengeance: The Making of &#39;Ghost Rider&#39;
 ## 5          10.0  How Ponyo was Born ~Hayao Miyazaki&#39;s Thought Process~
 ## 6          10.0                                 Christmas at the Ranch
-## 7          10.0               El Chavo Del Ocho: Lo Mejor De Don Ramon
 ## 8          10.0                               Los Vengadores Chiflados
-## 9           9.8                      Dragon Ball Kami BEST [Bonus DVD]
 ## 10          9.6        The Spectacular Spider-Man Attack of the Lizard
 ## 11          9.5                                          Ebola Zombies
-## 12          9.5                  Bob Esponja: D\xedas de Cangreburgers
-## 13          9.5                  Doctor Strange: The Fabric of Reality
 ## 14          9.5                                    Aunt&#39;s Temptation 3
 ## 15          9.4                                 Live: The Last Concert
 ## 16          9.3 Demon Slayer: Kimetsu no Yaiba the Hashira Meeting Arc
 ## 17          9.3          Demon Slayer: Kimetsu no Yaiba Sibling&#39;s Bond
-## 18          9.2                Doctor Strange: The Score-Cerer Supreme
 ## 19          9.2                   Franco Escamilla: Por La An\xe9cdota
-## 20          9.2          BTS World Tour: Love Yourself - Japan Edition</code></pre>
+## 20          9.2          BTS World Tour: Love Yourself - Japan Edition
+## 21         10.0                           Break the Silence: The Movie
+## 22         10.0             Steven Universe: Heart of the Crystal Gems
+## 23         10.0                                    Mission \xabSky\xbb
+## 24         10.0                       Gravity Falls: Six Strange Tales
+## 25         10.0                              Bring the Soul: The Movie</code></pre>
 </div>
 <div id="cómo-se-correlacionan-los-presupuestos-con-los-ingresos-los-altos-presupuestos-significan-altos-ingresos-haga-los-gráficos-que-necesite-histograma-diagrama-de-dispersión" class="section level2">
 <h2>4.11) ¿Cómo se correlacionan los presupuestos con los ingresos? ¿Los
 altos presupuestos significan altos ingresos? Haga los gráficos que
 necesite, histograma, diagrama de dispersión</h2>
+<p>Se utilizó un histograma como ayuda para calculcar la correlacion
+entre el presupuesto y los ingresos, como se puede observar abajo, no
+existe una tendencia definida que indique buena correlacion entre estas
+variables. Sumando a la grafica, el coeficiente de correlacion R resultó
+de 0.76, lo cual nos dice que puede haber ligera correlacion pero no es
+un dato contundente que asegure relación.</p>
 <pre class="r"><code>plot(datos$budget, datos$revenue, main = &quot;Presupuesto vs Ingresos&quot;,
      xlab = &quot;Prespuesto&quot;, ylab = &quot;Ingresos&quot;,
      pch = 21, frame = FALSE)
@@ -1173,10 +1183,14 @@ summary(correlation)</code></pre>
 <div id="se-asocian-ciertos-meses-de-lanzamiento-con-mejores-ingresos" class="section level2">
 <h2>4.12) ¿Se asocian ciertos meses de lanzamiento con mejores
 ingresos?</h2>
+<p>A partir del gráfico de barras presentado podemos obesrvar que los
+meses con mejores ingresos son junio, diciembre y julio como tercer
+lugar.</p>
 <pre class="r"><code>library(ggplot2)
 meses &lt;- setNames(aggregate(datos$revenue, by=list(datos$releaseDate), FUN=sum),c(&quot;Fecha&quot;,&quot;Cantidad&quot;))
 meses$mes&lt;-months(as.Date(meses$Fecha,format=&quot;%m/%d/%y&quot;))
 meses &lt;- setNames(aggregate(meses$Cantidad, by=list(meses$mes), FUN=sum),c(&quot;mes&quot;,&quot;Cantidad&quot;))
+
 meses</code></pre>
 <pre><code>## [1] mes      Cantidad
 ## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
@@ -1187,6 +1201,12 @@ meses</code></pre>
 <div id="en-qué-meses-se-han-visto-los-lanzamientos-con-mejores-ingresoscuantas-películas-en-promedio-se-han-lanzado-por-mes" class="section level2">
 <h2>4.13) ¿En qué meses se han visto los lanzamientos con mejores
 ingresos?¿cuantas películas, en promedio, se han lanzado por mes?</h2>
+<p>A partir del siguiente analisis podemos observar qe la pelicula con
+mas ingresos(Avatar) fue lanzada en el mes de diciembre, la segunda con
+mejores ganancias(Avengers: Endgame) fue lanzada en abril y la tercera
+con mas ingresos(Titanic) fue lanzada en noviembre. Si se desea conocer
+los meses de las siguientes con mas ganancias se puede consultar la
+siguiente tabla.</p>
 <pre class="r"><code>df13 &lt;- datos[order(datos$revenue, decreasing = TRUE),]
 df &lt;- data.frame(title=df13$title[1:5],
                  revenue=df13$revenue[1:5],
@@ -1210,10 +1230,19 @@ table(lanzamientos)</code></pre>
 <pre class="r"><code>z&lt;-nrow(datos)/12
 print(paste(&quot;promedio de peliculas producidas por mes: &quot;,round(z,2)))</code></pre>
 <pre><code>## [1] &quot;promedio de peliculas producidas por mes:  833.33&quot;</code></pre>
+<div id="cuantas-películas-en-promedio-se-han-lanzado-por-mes" class="section level4">
+<h4>¿cuantas películas, en promedio, se han lanzado por mes?</h4>
+<p>En total fueron lanzadas 10,000 peliculas, por lo que las cantidad de
+peliculas lanzadas por mes es de alrededor de 833.</p>
+</div>
 </div>
 <div id="cómo-se-correlacionan-las-calificaciones-con-el-éxito-comercial" class="section level2">
 <h2>4.14) ¿Cómo se correlacionan las calificaciones con el éxito
 comercial?</h2>
+<p>Se puede observar en el diagrama de dispesion siguiente que no existe
+ninguna correlacion entre la popularidad de las peliculas con su exito
+comercial(ingresos). Una correlacion de 0.16 de estos datos nos afirman
+lo establecido anteriormente.</p>
 <pre class="r"><code>plot(datos$popularity, datos$revenue, main = &quot;popularidad vs Ingresos&quot;,
      xlab = &quot;Popularidad&quot;, ylab = &quot;Exito monetario&quot;,
      pch = 21, frame = FALSE)
@@ -1234,6 +1263,11 @@ text(paste(&quot;Correlación:&quot;, round(cor(datos$popularity, datos$revenue)
 <div id="a-qué-género-principal-pertenecen-las-películas-más-largas" class="section level2">
 <h2>4.15) ¿A qué género principal pertenecen las películas más
 largas?</h2>
+<p>De las 5 peliculas mas largas, 3 de estas tienen como genero
+principal el <em>Drama</em>, y las otras dos tienen como genero
+<em>Documental</em>. Es importante recalcar que a pesar de que son mas
+de drama, las primeras dos mas largas son de documental, y las
+posiciones 3-5 son de drama.</p>
 <pre class="r"><code>df15 &lt;- datos[order(datos$runtime, decreasing = TRUE),]
 df &lt;- data.frame(title=df15$title[1:5],
                  genre=df15$genres[1:5],

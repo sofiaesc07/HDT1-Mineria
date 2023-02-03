@@ -231,6 +231,7 @@ df4$title[1:10]
 8) "Thor: Hammer Time"                                                                      
 9) "Sing Along"                                                                             
 10) "Tar Pits Film"
+
 ## 4.5) ¿Cuántas películas se hicieron en cada año? ¿En qué año se hicieron más películas? Haga un gráfico de barras
 
 ```{r}
