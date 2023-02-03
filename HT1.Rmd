@@ -1,6 +1,6 @@
 ---
 title: "HT1"
-author: "Stefan Quintana, Sofía Escobar, Wilfredo Gallegos"
+author: "Stefan Quintana"
 date: "3/22/2022"
 output: html_document
 ---
@@ -8,13 +8,10 @@ output: html_document
 ```{r, echo=FALSE}
 library(readxl)
 library(FrF2)
-library(magrittr)
-library(ungroup)
-library(dplyr)
-library(tidyverse)
-library(ggplot2)
+setwd("C:/Stefan/MineriaDatos")
 
 datos <- read.csv("movies.csv")
+
 names(datos)
 #Exploracion de datos en general
 str(datos)
@@ -22,7 +19,6 @@ str(datos)
 #Exploracion de cada variable
 
 ```
-
 ## 1) Exploración de datos
 
 ```{r, echo=FALSE}
@@ -34,55 +30,30 @@ str(datos)
 
 
 budget -> cuantitativa discreta
-
 genres -> cualitativa nominal
-
 homePage -> cualitativa nominal
-
 productionCompany -> cualitativa nominal
-
 productionCompanyCountry -> cualitativa nominal
-
 productionCountry -> cualitativa nominal
-
 revenue -> cuantitativa discreta
-
 runtime -> cuantitativa discreta
-
 video -> cualitativa nominal
-
 director -> cualitativa nominal
-
 actors -> cualitativa nominal
-
-actorsPopularity -> cuantitativa discreta
-
+actorsPopularity -> cualitativa ordinal
 actorsCharacter -> cualitativa nominal
-
 originalTitle -> cualitativa nominal
-
 title -> cualitativa nominal
-
 originalLanguage -> cualitativa nominal
-
 popularity -> cuantitativa discreta 
-
-releaseDate -> cuantitativa discreta
-
+releaseDate -> cualitativa ordinal
 voteAvg -> cuantitativa discreta 
-
 voteCount -> cuantitativa discreta
-
 genresAmount -> cuantitativa discreta
-
 productionCoAomunt -> cuantitativa discreta
-
 productionCountriesAmount -> cuantitativa discreta
-
 actorsAmount -> cuantitativa discreta
-
 castWomenAmount -> cuantitativa discreta
-
 castMenAmount -> cuantitativa discreta
 
 ## 3) Revisión de normalidad en variables
@@ -101,12 +72,15 @@ qqnorm(datos$budget)
 qqline(datos$budget)
 lillie.test(datos$revenue)
 ```
+Basándose en la gráfica, donde se puede notar que los puntos se alejan de la recta teórica, podemos argumentar que los datos no respetan una distribución normal, lo cuál se confirma en el test Kolmogorov-Smirnov, donde se rechaza la hipótesis nula, por lo tanto, se concluye que los datos no provienen de una distribución normal.
+
 ### runtime 
 ```{r, echo = FALSE}
 qqnorm(datos$runtime)
 qqline(datos$runtime)
 lillie.test(datos$runtime)
 ```
+Análogamente con el set de datos anterior, el valor p del test Kolmogorov-Smirnov hace que se rechace la hipótesis nula y se concluya que los datos no provienen de una distribución normal.
 
 ### popularity 
 ```{r, echo = FALSE}
@@ -114,6 +88,7 @@ qqnorm(datos$popularity)
 qqline(datos$popularity)
 lillie.test(datos$popularity)
 ```
+El valor-p de el test Kolmogorov-Smirnov nos indica que se rechaza la hipótesis nula, por lo tanto, se concluye que los datos no provienen de una distribución normal.
 
 ### voteAvg  
 ```{r, echo = FALSE}
@@ -121,6 +96,7 @@ qqnorm(datos$voteAvg)
 qqline(datos$voteAvg)
 lillie.test(datos$voteAvg)
 ```
+El valor-p de el test Kolmogorov-Smirnov y la gráfica indican que los datos no respetan una distribución normal.
 
 ### voteCount
 ```{r, echo = FALSE}
@@ -128,30 +104,40 @@ qqnorm(datos$voteCount)
 qqline(datos$voteCount)
 lillie.test(datos$voteCount)
 ```
+Nuevamente, el valor-p del test de Kolmogorov-Smirnov es menor a 0.05, por lo tanto, se rechaza la hipótesis nula y se argumenta que los datos no provienen de una distribución normal.
+
 ### genresAmount
 ```{r, echo = FALSE}
 qqnorm(datos$genresAmount)
 qqline(datos$genresAmount)
 lillie.test(datos$genresAmount)
 ```
+Con un valor-p menor a 0.05 en el test Kolmogorov-Smirnov se rechaza la hipótesis nula y se concluye que los datos no provienen de una distribución normal, argumento que refuerza la gráfica.
+
 ### productionCoAomunt
 ```{r, echo = FALSE}
 qqnorm(datos$productionCoAmount)
 qqline(datos$productionCoAmount)
 lillie.test(datos$productionCoAmount)
 ```
+El test Kolmogorov-Smirnov revela un valor-p menor a 0.05, además la gráfica nos muestra que los datos no se mantienen cercanos a la recta teórica en su totalidad, por lo tanto, se concluye que los datos no provienen de una distribución normal.
+
 ### productionCountriesAmount 
 ```{r, echo = FALSE}
 qqnorm(datos$productionCountriesAmount)
 qqline(datos$productionCountriesAmount)
 lillie.test(datos$productionCountriesAmount)
 ```
+Al observar la gráfica podemos notar que los datos no se mantienen cercanos a la recta teórica en su totalidad, además el test Kolmogorov-Smirnov nos da un valor-p el cuál nos hace rechazar la hipótesis nula, argumentando así, que los datos no provienen de una distribución normal.
+
 ### actorsAmount 
 ```{r, echo = FALSE}
 qqnorm(datos$actorsAmount)
 qqline(datos$actorsAmount)
 lillie.test(datos$actorsAmount)
 ```
+Debido a que se obtiene un valor-p menor a 0.05 en el test de Kolmogorov-Smirnov, se rechaza la hipótesis nula y se concluye que los datos no provienen de una distribución normal.
+
 ### castWomenAmount 
 ```{r, echo = FALSE}
 d1 <- as.numeric(datos$castWomenAmount)
@@ -159,6 +145,8 @@ qqnorm(d1)
 qqline(d1)
 lillie.test(d1)
 ```
+Se puede notar en la gráfica que muchos de los datos no se mantienen en cercanía a la recta teórica, por lo tanto, se concluye que el set de datos no respeta una distribución normal, conclusión reforzada por el test Kolmogorov-Smirnov.
+
 ### castMenAmount 
 ```{r, echo = FALSE}
 d2 <- as.numeric(datos$castMenAmount)
@@ -166,6 +154,7 @@ qqnorm(d2)
 qqline(d2)
 lillie.test(d2)
 ```
+Nuevamente, obtenemos una gráfica donde los valores no se mantienen cercanos a la recta teórica y un valor-p menor a 0.05 en el test Kolmogorov-Smirnov, lo cuál hace que se concluya que no hay normalidad en el set de datos.
 
 ## 4.1) ¿Cuáles son las 10 películas que contaron con más presupuesto?
 
@@ -174,6 +163,17 @@ df1 <- datos[order(datos$budget, decreasing = TRUE),]
 df1$title[1:10]
 ```
 
+1) Pirates of the Caribbean: On Stranger Tides
+2) Avengers: Age of Ultron                    
+3) Avengers: Endgame                          
+4) Pirates of the Caribbean: At World's End  
+5) Justice League                           
+6) Avengers: Infinity War                     
+7) Superman Returns                           
+8) Tangled                             
+9) The Lion King                              
+10) Spider-Man 3  
+
 ## 4.2) ¿Cuáles son las 10 películas que más ingresos tuvieron?
 
 
@@ -181,7 +181,16 @@ df1$title[1:10]
 df2 <- datos[order(datos$revenue, decreasing = TRUE),]
 df2$title[1:10]
 ```
-
+1) Avatar
+2) Avengers: Endgame
+3) Titanic
+4) Star Wars: The Force Awakens
+5) Avengers: Infinity War
+6) Jurassic World
+7) The Lion King
+8) Spider-Man: No Way Home
+9) The Avengers
+10) Furious 7
 
 ## 4.3) ¿Cuál es la película que más votos tuvo?
 
@@ -190,132 +199,14 @@ df3 <- datos[order(datos$voteCount, decreasing = TRUE),]
 df3$title[1:10]
 ```
 
+1) Inception
+2) Interestellar
+3) The Dark Knight
+4) The Avengers
+5) Deadpool
+6) Avatar
+7) Guardians of the Galaxy
+8) Avengers: Infinity War
+9) Fight Club
+10) Pulp Fiction
 
-## 4.4) ¿Cuál es la peor película de acuerdo a los votos de todos los usuarios?
-
-```{r}
-df4 <- datos[order(datos$voteCount, decreasing = FALSE),]
-df4$title[1:10]
-```
-
-## 4.5) ¿Cuántas películas se hicieron en cada año? ¿En qué año se hicieron más películas? Haga un gráfico de barras
-
-```{r}
-datos$releaseYear <- as.POSIXct(datos$releaseDate, format ="%Y-%m-%d")
-datos$releaseYear <-format(datos$releaseYear, format = "%Y")
-datos$releaseYear <-as.integer(datos$releaseYear, format ="%Y")
-df5 <- datos %>% group_by(datos$releaseYear) %>% summarise(freq=n()) %>% ungroup()
-
-print(as_tibble(años), n = 120)
-
-# Get year with most movies produced
-df5 %>% slice_max(freq)
-ggplot(df5, aes(x=`datos$releaseYear`, y= freq, fill= freq)) + geom_bar(stat = "identity")
-```
-
-## 4.6) ¿Cuál es el género principal de las 20 películas más recientes? ¿Cuál es el género principal que predomina en el conjunto de datos? Represéntelo usando un gráfico
-
-```{r}
-df6<-datos[with(datos,order(datos$releaseYear, datos$popularity, datos$genres)),]
-head(df6$genres,20)
-head(df6,1)
-
-```
-
-## 4.7)  ¿Las películas de qué genero principal obtuvieron mayores ganancias?
-
-```{r}
-df7 <- separate_rows(datos,genres,sep="\\|") %>%
-  group_by(genres) %>%
-  summarize(
-    revenue = sum(revenue),
-    ingresos = sum(revenue) - sum(budget),
-    presupuesto = sum(budget)
-    )
-df7
-```
-
-
-
-## 4.8) ¿La cantidad de actores influye en los ingresos de las películas?¿se han hecho películas con más actores en los últimos años?
-```{r}
-
-```
-
-
-## 4.9) ¿Es posible que la cantidad de hombres y mujeres en el reparto influya en la popularidad y los ingresos de las películas?
-
-```{r}
-plot(datos[,c("popularity","revenue","castWomenAmount","castMenAmount")])
-
-```
-
-## 4.10) ¿Quiénes son los directores que hicieron las 20 películas mejor calificadas?
-
-```{r}
-<<<<<<< HEAD
-=======
-library(tidyr)
-df10 <- datos[order(datos$voteAvg, decreasing = TRUE),]
-df <- data.frame(director=df10$director[1:20],
-                 calificacion=df10$voteAvg[1:20],
-                 titulo=df10$title)
-head(df,20)
->>>>>>> 8761790e0a173dec3f76b2037bb624570b1d7841
-```
-
-## 4.11) ¿Cómo se correlacionan los presupuestos con los ingresos? ¿Los altos presupuestos significan altos ingresos? Haga los gráficos que necesite, histograma, diagrama de dispersión
-
-```{r}
-plot(datos$budget, datos$revenue, main = "Presupuesto vs Ingresos",
-     xlab = "Prespuesto", ylab = "Ingresos",
-     pch = 21, frame = FALSE)
-abline(lm(datos$revenue ~ datos$budget, data = datos), col = "blue")
-text(paste("Correlación:", round(cor(datos$budget, datos$revenue), 2)), x = 1e+08, y =2.5e+09)
-correlation <- lm(datos$budget~datos$revenue)
-summary(correlation)
-```
-
-## 4.12) ¿Se asocian ciertos meses de lanzamiento con mejores ingresos?
-
-```{r}
-library(ggplot2)
-meses <- setNames(aggregate(datos$revenue, by=list(datos$releaseDate), FUN=sum),c("Fecha","Cantidad"))
-meses$mes<-months(as.Date(meses$Fecha,format="%m/%d/%y"))
-meses <- setNames(aggregate(meses$Cantidad, by=list(meses$mes), FUN=sum),c("mes","Cantidad"))
-meses
-ggplot(meses, aes(x = mes, y = Cantidad)) + 
-  geom_bar(stat = "identity")
-```
-
-## 4.13) ¿En qué meses se han visto los lanzamientos con mejores ingresos?¿cuantas películas, en promedio, se han lanzado por mes?
-
-```{r}
-df13 <- datos[order(datos$revenue, decreasing = TRUE),]
-df <- data.frame(title=df13$title[1:5],
-                 revenue=df13$revenue[1:5],
-                 releaseDate=df13$releaseDate[1:5])
-df
-meses13 <- setNames(aggregate(df$revenue, by=list(df$releaseDate), FUN=sum),c("Fecha","Cantidad"))
-meses13$mes<-months(as.Date(meses13$Fecha,format="%m/%d/%y"))
-meses13 <- setNames(aggregate(meses13$Cantidad, by=list(meses13$mes), FUN=sum),c("mes","Cantidad"))
-meses13
-lanzamientos <- months(as.POSIXlt(datos$releaseDate, format="%m/%d/%Y"))
-table(lanzamientos)
-z<-nrow(datos)/12
-print(paste("promedio de peliculas producidas por mes: ",round(z,2)))
-```
-
-## 4.14) ¿Cómo se correlacionan las calificaciones con el éxito comercial?
-
-```{r}
-
-```
-
-## 4.15) ¿A qué género principal pertenecen las películas más largas?
-
-```{r}
-
-```
-
-hello world
