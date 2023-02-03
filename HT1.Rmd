@@ -282,3 +282,15 @@ correlation <- lm(datos$revenue~datos$popularity)
 #          color = "dark grey", shape = 19,
 #          title = "Correlacion entre calificaciones y el éxito comercial")
 ```
+
+## 4.15) ¿A qué género principal pertenecen las películas más largas?
+
+```{r}
+df15 <- datos[order(datos$runtime, decreasing = TRUE),]
+df <- data.frame(title=df15$title[1:5],
+                 genre=df15$genres[1:5],
+                 runtime=df15$runtime[1:5])
+df
+
+```
+
