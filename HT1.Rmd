@@ -326,7 +326,7 @@ demás variables.
 
 
 
-```{r}
+```{r 4.10}
 library(tidyr)
 df10 <- datos[order(datos$voteAvg, decreasing = TRUE),]
 df <- data.frame(director=df10$director[1:20],
@@ -355,7 +355,7 @@ summary(correlation)
 A partir del gráfico de barras presentado podemos obesrvar que los meses con mejores ingresos son junio, diciembre y julio como tercer lugar. 
 
 ```{r}
-library(ggplot2)
+datos$releaseDate <- as.Date(datos$releaseDate)
 meses <- setNames(aggregate(datos$revenue, by=list(datos$releaseDate), FUN=sum),c("Fecha","Cantidad"))
 meses$mes<-months(as.Date(meses$Fecha,format="%m/%d/%y"))
 meses <- setNames(aggregate(meses$Cantidad, by=list(meses$mes), FUN=sum),c("mes","Cantidad"))
@@ -363,17 +363,20 @@ meses <- setNames(aggregate(meses$Cantidad, by=list(meses$mes), FUN=sum),c("mes"
 meses
 ggplot(meses, aes(x = mes, y = Cantidad)) + 
   geom_bar(stat = "identity")
+
+str(datos$releaseDate)
 ```
 
 ## 4.13) ¿En qué meses se han visto los lanzamientos con mejores ingresos?¿cuantas películas, en promedio, se han lanzado por mes?
 
 A partir del siguiente analisis podemos observar qe la pelicula con mas ingresos(Avatar) fue lanzada en el mes de diciembre, la segunda con mejores ganancias(Avengers: Endgame) fue lanzada en abril y la tercera con mas ingresos(Titanic) fue lanzada en noviembre. Si se desea conocer los meses de las siguientes con mas ganancias se puede consultar la siguiente tabla.
 ```{r}
+library(lubridate)
 df13 <- datos[order(datos$revenue, decreasing = TRUE),]
 df <- data.frame(title=df13$title[1:5],
                  revenue=df13$revenue[1:5],
                  releaseDate=df13$releaseDate[1:5])
-df
+df$releaseDate <- as.Date(df$releaseDate)
 meses13 <- setNames(aggregate(df$revenue, by=list(df$releaseDate), FUN=sum),c("Fecha","Cantidad"))
 meses13$mes<-months(as.Date(meses13$Fecha,format="%m/%d/%y"))
 meses13 <- setNames(aggregate(meses13$Cantidad, by=list(meses13$mes), FUN=sum),c("mes","Cantidad"))
