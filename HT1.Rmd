@@ -204,7 +204,12 @@ películas con más actores en los últimos años?
 ## 4.10) ¿Quiénes son los directores que hicieron las 20 películas mejor calificadas?
 
 ```{r}
-
+library(tidyr)
+df10 <- datos[order(datos$voteAvg, decreasing = TRUE),]
+df <- data.frame(director=df10$director[1:20],
+                 calificacion=df10$voteAvg[1:20],
+                 titulo=df10$title)
+head(df,20)
 ```
 
 ## 4.11) ¿Cómo se correlacionan los presupuestos con los ingresos? ¿Los altos presupuestos significan altos ingresos? Haga los gráficos que necesite, histograma, diagrama de dispersión
