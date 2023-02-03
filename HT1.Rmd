@@ -34,30 +34,55 @@ str(datos)
 
 
 budget -> cuantitativa discreta
+
 genres -> cualitativa nominal
+
 homePage -> cualitativa nominal
+
 productionCompany -> cualitativa nominal
+
 productionCompanyCountry -> cualitativa nominal
+
 productionCountry -> cualitativa nominal
+
 revenue -> cuantitativa discreta
+
 runtime -> cuantitativa discreta
+
 video -> cualitativa nominal
+
 director -> cualitativa nominal
+
 actors -> cualitativa nominal
+
 actorsPopularity -> cuantitativa discreta
+
 actorsCharacter -> cualitativa nominal
+
 originalTitle -> cualitativa nominal
+
 title -> cualitativa nominal
+
 originalLanguage -> cualitativa nominal
+
 popularity -> cuantitativa discreta 
+
 releaseDate -> cuantitativa discreta
+
 voteAvg -> cuantitativa discreta 
+
 voteCount -> cuantitativa discreta
+
 genresAmount -> cuantitativa discreta
+
 productionCoAomunt -> cuantitativa discreta
+
 productionCountriesAmount -> cuantitativa discreta
+
 actorsAmount -> cuantitativa discreta
+
 castWomenAmount -> cuantitativa discreta
+
 castMenAmount -> cuantitativa discreta
 
 ## 3) Revisión de normalidad en variables
@@ -228,24 +253,57 @@ plot(datos[,c("popularity","revenue","castWomenAmount","castMenAmount")])
 ## 4.10) ¿Quiénes son los directores que hicieron las 20 películas mejor calificadas?
 
 ```{r}
+<<<<<<< HEAD
+=======
+library(tidyr)
+df10 <- datos[order(datos$voteAvg, decreasing = TRUE),]
+df <- data.frame(director=df10$director[1:20],
+                 calificacion=df10$voteAvg[1:20],
+                 titulo=df10$title)
+head(df,20)
+>>>>>>> 8761790e0a173dec3f76b2037bb624570b1d7841
 ```
 
 ## 4.11) ¿Cómo se correlacionan los presupuestos con los ingresos? ¿Los altos presupuestos significan altos ingresos? Haga los gráficos que necesite, histograma, diagrama de dispersión
 
 ```{r}
-
+plot(datos$budget, datos$revenue, main = "Presupuesto vs Ingresos",
+     xlab = "Prespuesto", ylab = "Ingresos",
+     pch = 21, frame = FALSE)
+abline(lm(datos$revenue ~ datos$budget, data = datos), col = "blue")
+text(paste("Correlación:", round(cor(datos$budget, datos$revenue), 2)), x = 1e+08, y =2.5e+09)
+correlation <- lm(datos$budget~datos$revenue)
+summary(correlation)
 ```
 
 ## 4.12) ¿Se asocian ciertos meses de lanzamiento con mejores ingresos?
 
 ```{r}
-
+library(ggplot2)
+meses <- setNames(aggregate(datos$revenue, by=list(datos$releaseDate), FUN=sum),c("Fecha","Cantidad"))
+meses$mes<-months(as.Date(meses$Fecha,format="%m/%d/%y"))
+meses <- setNames(aggregate(meses$Cantidad, by=list(meses$mes), FUN=sum),c("mes","Cantidad"))
+meses
+ggplot(meses, aes(x = mes, y = Cantidad)) + 
+  geom_bar(stat = "identity")
 ```
 
 ## 4.13) ¿En qué meses se han visto los lanzamientos con mejores ingresos?¿cuantas películas, en promedio, se han lanzado por mes?
 
 ```{r}
-
+df13 <- datos[order(datos$revenue, decreasing = TRUE),]
+df <- data.frame(title=df13$title[1:5],
+                 revenue=df13$revenue[1:5],
+                 releaseDate=df13$releaseDate[1:5])
+df
+meses13 <- setNames(aggregate(df$revenue, by=list(df$releaseDate), FUN=sum),c("Fecha","Cantidad"))
+meses13$mes<-months(as.Date(meses13$Fecha,format="%m/%d/%y"))
+meses13 <- setNames(aggregate(meses13$Cantidad, by=list(meses13$mes), FUN=sum),c("mes","Cantidad"))
+meses13
+lanzamientos <- months(as.POSIXlt(datos$releaseDate, format="%m/%d/%Y"))
+table(lanzamientos)
+z<-nrow(datos)/12
+print(paste("promedio de peliculas producidas por mes: ",round(z,2)))
 ```
 
 ## 4.14) ¿Cómo se correlacionan las calificaciones con el éxito comercial?
