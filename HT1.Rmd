@@ -1,0 +1,164 @@
+---
+title: "HT1"
+author: "Stefan Quintana"
+date: "3/22/2022"
+output: html_document
+---
+
+```{r, echo=FALSE}
+library(readxl)
+library(FrF2)
+setwd("C:/Stefan/MineriaDatos")
+
+datos <- read.csv("movies.csv")
+
+names(datos)
+#Exploracion de datos en general
+str(datos)
+
+#Exploracion de cada variable
+
+```
+## 1) Exploración de datos
+
+```{r, echo=FALSE}
+summary(datos)
+str(datos)
+```
+
+## 2) Variables cuantitativas y cualitativas
+
+
+budget -> cuantitativa discreta
+genres -> cualitativa nominal
+homePage -> cualitativa nominal
+productionCompany -> cualitativa nominal
+productionCompanyCountry -> cualitativa nominal
+productionCountry -> cualitativa nominal
+revenue -> cuantitativa discreta
+runtime -> cuantitativa discreta
+video -> cualitativa nominal
+director -> cualitativa nominal
+actors -> cualitativa nominal
+actorsPopularity -> cuantitativa discreta
+actorsCharacter -> cualitativa nominal
+originalTitle -> cualitativa nominal
+title -> cualitativa nominal
+originalLanguage -> cualitativa nominal
+popularity -> cuantitativa discreta 
+releaseDate -> cuantitativa discreta
+voteAvg -> cuantitativa discreta 
+voteCount -> cuantitativa discreta
+genresAmount -> cuantitativa discreta
+productionCoAomunt -> cuantitativa discreta
+productionCountriesAmount -> cuantitativa discreta
+actorsAmount -> cuantitativa discreta
+castWomenAmount -> cuantitativa discreta
+castMenAmount -> cuantitativa discreta
+
+## 3) Revisión de normalidad en variables
+
+### budget 
+```{r, echo = FALSE}
+library(nortest)
+qqnorm(datos$budget)
+qqline(datos$budget)
+
+lillie.test(datos$budget)
+```
+### revenue
+```{r, echo = FALSE}
+qqnorm(datos$budget)
+qqline(datos$budget)
+lillie.test(datos$revenue)
+```
+### runtime 
+```{r, echo = FALSE}
+qqnorm(datos$runtime)
+qqline(datos$runtime)
+lillie.test(datos$runtime)
+```
+
+### popularity 
+```{r, echo = FALSE}
+qqnorm(datos$popularity)
+qqline(datos$popularity)
+lillie.test(datos$popularity)
+```
+
+### voteAvg  
+```{r, echo = FALSE}
+qqnorm(datos$voteAvg)
+qqline(datos$voteAvg)
+lillie.test(datos$voteAvg)
+```
+
+### voteCount
+```{r, echo = FALSE}
+qqnorm(datos$voteCount)
+qqline(datos$voteCount)
+lillie.test(datos$voteCount)
+```
+### genresAmount
+```{r, echo = FALSE}
+qqnorm(datos$genresAmount)
+qqline(datos$genresAmount)
+lillie.test(datos$genresAmount)
+```
+### productionCoAomunt
+```{r, echo = FALSE}
+qqnorm(datos$productionCoAmount)
+qqline(datos$productionCoAmount)
+lillie.test(datos$productionCoAmount)
+```
+### productionCountriesAmount 
+```{r, echo = FALSE}
+qqnorm(datos$productionCountriesAmount)
+qqline(datos$productionCountriesAmount)
+lillie.test(datos$productionCountriesAmount)
+```
+### actorsAmount 
+```{r, echo = FALSE}
+qqnorm(datos$actorsAmount)
+qqline(datos$actorsAmount)
+lillie.test(datos$actorsAmount)
+```
+### castWomenAmount 
+```{r, echo = FALSE}
+d1 <- as.numeric(datos$castWomenAmount)
+qqnorm(d1)
+qqline(d1)
+lillie.test(d1)
+```
+### castMenAmount 
+```{r, echo = FALSE}
+d2 <- as.numeric(datos$castMenAmount)
+qqnorm(d2)
+qqline(d2)
+lillie.test(d2)
+```
+
+## 4.1) ¿Cuáles son las 10 películas que contaron con más presupuesto?
+
+```{r, echo = FALSE}
+df1 <- datos[order(datos$budget, decreasing = TRUE),]
+df1$title[1:10]
+```
+
+## 4.2) ¿Cuáles son las 10 películas que más ingresos tuvieron?
+
+
+```{r, echo = FALSE}
+df2 <- datos[order(datos$revenue, decreasing = TRUE),]
+df2$title[1:10]
+```
+
+
+## 4.3) ¿Cuál es la película que más votos tuvo?
+
+```{r, echo = FALSE}
+df3 <- datos[order(datos$voteCount, decreasing = TRUE),]
+df3$title[1:10]
+```
+
+
