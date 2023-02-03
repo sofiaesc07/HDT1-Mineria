@@ -315,10 +315,11 @@ Observamos que la correlación de spearman de los datos es de 0.55 lo cual signi
 ```{r}
 #planteamos un grafico de correlacion para asi poder observar su las variables se encuentran relacionadas entre ellas y así poder determinar si influyen unas con otras
 
-plot(datos[,c("popularity","revenue","castWomenAmount","castMenAmount")])
+plot(datos[,c("castWomenAmount","castMenAmount","popularity","revenue")])
+cor(datos[,c("castWomenAmount","castMenAmount","popularity","revenue")])
 ```
 De acuerdo al gráfico realizado se determinó que existe una correlación leve entre
-ganancias y popularidad. Mientras que, no hay una correlación evidente entre las
+ganancias (revenue) y popularidad. Mientras que, no hay una correlación evidente entre las
 demás variables.
 
 
