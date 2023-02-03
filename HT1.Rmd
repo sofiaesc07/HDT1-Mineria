@@ -1,6 +1,6 @@
 ---
 title: "HT1"
-author: "Stefan Quintana"
+author: "Stefan Quintana, Sofía Escobar, Wilfredo Gallegos"
 date: "3/22/2022"
 output: html_document
 ---
@@ -8,6 +8,11 @@ output: html_document
 ```{r, echo=FALSE}
 library(readxl)
 library(FrF2)
+library(magrittr)
+library(ungroup)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
 
 datos <- read.csv("movies.csv")
 names(datos)
@@ -168,43 +173,61 @@ df4 <- datos[order(datos$voteCount, decreasing = FALSE),]
 df4$title[1:10]
 ```
 
-## 4.5) ¿Cuántas películas se hicieron en cada año? ¿En qué año se hicieron más
-películas? Haga un gráfico de barras
+## 4.5) ¿Cuántas películas se hicieron en cada año? ¿En qué año se hicieron más películas? Haga un gráfico de barras
 
 ```{r}
+datos$releaseYear <- as.POSIXct(datos$releaseDate, format ="%Y-%m-%d")
+datos$releaseYear <-format(datos$releaseYear, format = "%Y")
+datos$releaseYear <-as.integer(datos$releaseYear, format ="%Y")
+df5 <- datos %>% group_by(datos$releaseYear) %>% summarise(freq=n()) %>% ungroup()
 
+print(as_tibble(años), n = 120)
+
+# Get year with most movies produced
+df5 %>% slice_max(freq)
+ggplot(df5, aes(x=`datos$releaseYear`, y= freq, fill= freq)) + geom_bar(stat = "identity")
 ```
 
-## 4.6) ¿Cuál es el género principal de las 20 películas más recientes? ¿Cuál es el género
-principal que predomina en el conjunto de datos? Represéntelo usando un gráfico
+## 4.6) ¿Cuál es el género principal de las 20 películas más recientes? ¿Cuál es el género principal que predomina en el conjunto de datos? Represéntelo usando un gráfico
 
 ```{r}
+df6<-datos[with(datos,order(datos$releaseYear, datos$popularity, datos$genres)),]
+head(df6$genres,20)
+head(df6,1)
 
 ```
 
 ## 4.7)  ¿Las películas de qué genero principal obtuvieron mayores ganancias?
 
 ```{r}
-
+df7 <- separate_rows(datos,genres,sep="\\|") %>%
+  group_by(genres) %>%
+  summarize(
+    revenue = sum(revenue),
+    ingresos = sum(revenue) - sum(budget),
+    presupuesto = sum(budget)
+    )
+df7
 ```
 
-## 4.8) ¿La cantidad de actores influye en los ingresos de las películas?¿se han hecho
-películas con más actores en los últimos años?
 
+
+## 4.8) ¿La cantidad de actores influye en los ingresos de las películas?¿se han hecho películas con más actores en los últimos años?
 ```{r}
 
 ```
+
 
 ## 4.9) ¿Es posible que la cantidad de hombres y mujeres en el reparto influya en la popularidad y los ingresos de las películas?
 
 ```{r}
+plot(datos[,c("popularity","revenue","castWomenAmount","castMenAmount")])
 
 ```
 
 ## 4.10) ¿Quiénes son los directores que hicieron las 20 películas mejor calificadas?
 
 ```{r}
-
 ```
 
 ## 4.11) ¿Cómo se correlacionan los presupuestos con los ingresos? ¿Los altos presupuestos significan altos ingresos? Haga los gráficos que necesite, histograma, diagrama de dispersión
