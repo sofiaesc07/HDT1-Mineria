@@ -8,6 +8,12 @@ output: html_document
 ```{r, echo=FALSE}
 library(readxl)
 library(FrF2)
+library(magrittr)
+library(ungroup)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library (MASS)
 setwd("C:/Stefan/MineriaDatos")
 
 datos <- read.csv("movies.csv")
@@ -301,9 +307,19 @@ df8 <- separate_rows(datos,releaseYear,actorsAmount) %>%
 df8 <- df8[order(df8$releaseYear, decreasing = TRUE),]
 df8
 ```
-Observamos que la correlación de spearman de los datos no se acerca a 1 lo que nos indica que la cantiadd de actores no influye de manera directa en los ingresos de las pelicula. De igual forma observamos que los años no tienen que ver con la cantidad de actores debido a que se observan variaciones en donde en años menores hay mayor cantidad de actores en el los años mas actuales. 
+Observamos que la correlación de spearman de los datos es de 0.55 lo cual significa que es una correlacion moderda y los datos se relacionan muy poco entre ellos. De igual forma observamos que con los años si han ido aumentando los actores. 
 
 
+## 4.9) ¿Es posible que la cantidad de hombres y mujeres en el reparto influya en la popularidad y los ingresos de las películas?
+
+```{r}
+#planteamos un grafico de correlacion para asi poder observar su las variables se encuentran relacionadas entre ellas y así poder determinar si influyen unas con otras
+
+plot(datos[,c("popularity","revenue","castWomenAmount","castMenAmount")])
+```
+De acuerdo al gráfico realizado se determinó que existe una correlación leve entre
+ganancias y popularidad. Mientras que, no hay una correlación evidente entre las
+demás variables.
 
 
 ## 4.10) ¿Quiénes son los directores que hicieron las 20 películas mejor calificadas?
